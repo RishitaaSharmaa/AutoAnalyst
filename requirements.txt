@@ -1,0 +1,9 @@
+langchain
+langgraph
+dotenv
+ipykernel
+langchain_groq
+numpy
+pandas
+scikit-learn
+

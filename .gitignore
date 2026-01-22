@@ -2,3 +2,4 @@
 venv
 amazon.csv
 Walmart_Sales.csv
+__pycache__

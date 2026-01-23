@@ -20,6 +20,7 @@ from sklearn.preprocessing import LabelEncoder
 import matplotlib.pyplot as plt
 from sklearn.metrics import r2_score
 
+
 load_dotenv()
 api_key=os.getenv('API_KEY')
 llm=ChatGroq(
@@ -185,6 +186,7 @@ def outlier_detection_tool(dataset_id: str) -> dict:
     return outlier_report
 
 
+
 @tool
 def plot_distribution_tool(dataset_id: str, column: str) -> dict:
     """Plot distribution of a column."""
@@ -276,11 +278,6 @@ workflow=graph.compile()
 def load_dataset(dataset_id: str, df: pd.DataFrame):
     DATASET_REGISTRY[dataset_id] = df
 
-# load_dataset("sales_data", "Walmart_Sales.csv")
-
-
-# result = workflow.invoke({"messages": [HumanMessage(content="In the given sales_data, clean it, use date preprocessor and then predict the Weekly_Sales")], })
-# print(result["messages"][-1].content)
 def run(task: str):
     result = workflow.invoke({
         "messages": [HumanMessage(content=task)]

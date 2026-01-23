@@ -7,13 +7,18 @@ from langchain_core.messages import BaseMessage, HumanMessage
 from langgraph.graph.message import add_messages
 from sklearn.model_selection import train_test_split
 from sklearn.ensemble import RandomForestRegressor
+from sklearn.linear_model import LinearRegression
+from xgboost import XGBRegressor
+from sklearn.ensemble import RandomForestClassifier
+from sklearn.linear_model import LogisticRegression
+from sklearn.svm import SVC
+from xgboost import XGBClassifier
 import os
 from langgraph.prebuilt import ToolNode, tools_condition
 from typing import TypedDict, Annotated
-from langchain.tools import tool
 from sklearn.preprocessing import LabelEncoder
 import matplotlib.pyplot as plt
-
+from sklearn.metrics import r2_score
 
 load_dotenv()
 api_key=os.getenv('API_KEY')
@@ -27,10 +32,20 @@ class AutoML(TypedDict):
 
 DATASET_REGISTRY = {}
 
+MODEL_REGISTRY={
+    "linear_regression": LinearRegression(),
+    "random_forest_regressor": RandomForestRegressor(),
+    "xgboost_regressor": XGBRegressor(),
+    "logistic_regression": LogisticRegression(max_iter=1000),
+    "random_forest_classifier": RandomForestClassifier(n_estimators=100),
+    "svm_classifier": SVC(kernel="linear", C=1),
+    "xgboost_classifier": XGBClassifier()
+
+}
+
 def load_dataset(dataset_id: str, path: str):
     """Load dataset and store internally."""
     DATASET_REGISTRY[dataset_id] = pd.read_csv(path)
-
 
 @tool
 
@@ -58,7 +73,6 @@ def data_profile_tool(dataset_id: str) -> dict:
         "missing_values": df.isnull().sum().to_dict(),
         "description": df.describe(include='number').round(3)
     }
-
 
 @tool
 
@@ -206,7 +220,7 @@ def plot_correlation_heatmap_tool(dataset_id: str) -> dict:
     return {"plot_path": path}
 
 @tool
-def prediction(dataset_id: str, target: str) -> dict:
+def prediction(dataset_id: str, target: str, model_name: str) -> dict:
 
     """Trains the model and predicts the value"""
 
@@ -215,7 +229,7 @@ def prediction(dataset_id: str, target: str) -> dict:
     X = df.drop(columns=[target])
     y = df[target]
 
-    model = RandomForestRegressor()
+    model = MODEL_REGISTRY[model_name]
 
     X_train, X_test, y_train, y_test = train_test_split(
         X, y, test_size=0.2, random_state=42
@@ -226,9 +240,11 @@ def prediction(dataset_id: str, target: str) -> dict:
     preds = model.predict(X_test)
 
     return {
-        "prediction_sample": preds[:10].tolist(),
-        "actual_sample": y_test[:10].tolist()
+        "prediction_sample": preds[:5].tolist(),
+        "r2_score":round(r2_score(y_test, preds), 3)
+
     }
+
 
 tools=[rem_null_duplicates,data_profile_tool, kpi_summary_tool,correlation_tool,encode_categorical_tool,groupby_summary_tool, outlier_detection_tool, plot_distribution_tool, plot_correlation_heatmap_tool ,preprocess_dates_tool, prediction]
 

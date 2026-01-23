@@ -1,5 +1,5 @@
 .env
 venv
-amazon.csv
-Walmart_Sales.csv
+datasets/
 __pycache__
+test.ipynb

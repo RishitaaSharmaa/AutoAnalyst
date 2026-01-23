@@ -20,7 +20,6 @@ from sklearn.preprocessing import LabelEncoder
 import matplotlib.pyplot as plt
 from sklearn.metrics import r2_score
 
-
 load_dotenv()
 api_key=os.getenv('API_KEY')
 llm=ChatGroq(
@@ -103,8 +102,6 @@ def kpi_summary_tool(dataset_id: str) -> dict:
         "mean_values": numeric_cols.mean().round(3).to_dict()
     }
 
-
-
 @tool
 def encode_categorical_tool(dataset_id: str) -> dict:
     """Label-encode all categorical columns."""
@@ -185,8 +182,6 @@ def outlier_detection_tool(dataset_id: str) -> dict:
     
     return outlier_report
 
-
-
 @tool
 def plot_distribution_tool(dataset_id: str, column: str) -> dict:
     """Plot distribution of a column."""
@@ -247,7 +242,6 @@ def prediction(dataset_id: str, target: str, model_name: str) -> dict:
 
     }
 
-
 tools=[rem_null_duplicates,data_profile_tool, kpi_summary_tool,correlation_tool,encode_categorical_tool,groupby_summary_tool, outlier_detection_tool, plot_distribution_tool, plot_correlation_heatmap_tool ,preprocess_dates_tool, prediction]
 
 llm_tools=llm.bind_tools(tools)
@@ -260,7 +254,6 @@ def chat_node(state: AutoML):
     response = llm_tools.invoke(messages)
     return {"messages": [response]}
 
-
 tool_node = ToolNode(tools)  
 
 graph=StateGraph(AutoML)
@@ -271,7 +264,6 @@ graph.add_node("tools",tool_node)
 graph.add_edge(START, "LLM")
 graph.add_conditional_edges("LLM",tools_condition)
 graph.add_edge("tools","LLM")
-
 
 workflow=graph.compile()
 

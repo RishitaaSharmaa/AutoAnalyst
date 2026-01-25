@@ -4,18 +4,13 @@ import pandas as pd
 from dotenv import load_dotenv
 from langchain_core.messages import BaseMessage, HumanMessage , SystemMessage
 from langgraph.graph.message import add_messages
-from sklearn.ensemble import RandomForestRegressor
-from sklearn.linear_model import LinearRegression
-from xgboost import XGBRegressor
-from sklearn.ensemble import RandomForestClassifier
-from sklearn.linear_model import LogisticRegression
-from sklearn.svm import SVC
-from xgboost import XGBClassifier
 import os
 from langgraph.prebuilt import ToolNode, tools_condition
 from typing import TypedDict, Annotated
 from langgraph.checkpoint.memory import MemorySaver
 from tools import rem_null_duplicates,data_profile_tool, kpi_summary_tool,correlation_tool,encode_categorical_tool,groupby_summary_tool, outlier_detection_tool, plot_distribution_tool, plot_correlation_heatmap_tool ,preprocess_dates_tool, prediction
+from registry import DATASET_REGISTRY, MODEL_REGISTRY
+
 
 load_dotenv()
 api_key=os.getenv('API_KEY')
@@ -29,23 +24,10 @@ llm=ChatGroq(
 class AutoML(TypedDict):
     messages: Annotated[list[BaseMessage], add_messages]
 
-DATASET_REGISTRY = {}
-
-MODEL_REGISTRY={
-    "linear_regression": LinearRegression(),
-    "random_forest_regressor": RandomForestRegressor(),
-    "xgboost_regressor": XGBRegressor(),
-    "LogisticRegression": LogisticRegression(max_iter=1000),
-    "RandomForestClassifier": RandomForestClassifier(n_estimators=100),
-    "svm_classifier": SVC(kernel="linear", C=1),
-    "XGBClassifier": XGBClassifier()
-
-}
 
 def load_dataset(dataset_id: str, path: str):
     """Load dataset and store internally."""
     DATASET_REGISTRY[dataset_id] = pd.read_csv(path)
-
 
 
 tools=[rem_null_duplicates,data_profile_tool, kpi_summary_tool,correlation_tool,encode_categorical_tool,groupby_summary_tool, outlier_detection_tool, plot_distribution_tool, plot_correlation_heatmap_tool ,preprocess_dates_tool, prediction]
@@ -98,7 +80,6 @@ graph.add_edge("tools","LLM")
 
 
 workflow=graph.compile(checkpointer=checkpointer)
-
 
 def load_dataset(dataset_id: str, df: pd.DataFrame):
     DATASET_REGISTRY[dataset_id] = df

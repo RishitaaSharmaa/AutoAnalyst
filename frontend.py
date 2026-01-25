@@ -1,8 +1,7 @@
-# app.py
-
 import streamlit as st
 import pandas as pd
-from main import load_dataset, run, DATASET_REGISTRY
+from main import load_dataset, run
+from registry import DATASET_REGISTRY, MODEL_REGISTRY
 
 st.set_page_config(page_title="AutoML LangGraph", layout="wide")
 

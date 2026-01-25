@@ -1,28 +1,11 @@
 from sklearn.preprocessing import LabelEncoder
 import matplotlib.pyplot as plt
 from sklearn.model_selection import train_test_split
-from sklearn.ensemble import RandomForestRegressor
-from sklearn.linear_model import LinearRegression
-from xgboost import XGBRegressor
-from sklearn.ensemble import RandomForestClassifier
-from sklearn.linear_model import LogisticRegression
-from sklearn.svm import SVC
-from xgboost import XGBClassifier
 from langchain_core.tools import tool
 
 
-DATASET_REGISTRY = {}
+from registry import DATASET_REGISTRY, MODEL_REGISTRY
 
-MODEL_REGISTRY={
-    "linear_regression": LinearRegression(),
-    "random_forest_regressor": RandomForestRegressor(),
-    "xgboost_regressor": XGBRegressor(),
-    "LogisticRegression": LogisticRegression(max_iter=1000),
-    "RandomForestClassifier": RandomForestClassifier(n_estimators=100),
-    "svm_classifier": SVC(kernel="linear", C=1),
-    "XGBClassifier": XGBClassifier()
-
-}
 
 @tool
 

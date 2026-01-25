@@ -9,7 +9,7 @@ from langgraph.prebuilt import ToolNode, tools_condition
 from typing import TypedDict, Annotated
 from langgraph.checkpoint.memory import MemorySaver
 from tools import rem_null_duplicates,data_profile_tool, kpi_summary_tool,correlation_tool,encode_categorical_tool,groupby_summary_tool, outlier_detection_tool, plot_distribution_tool, plot_correlation_heatmap_tool ,preprocess_dates_tool, prediction
-from registry import DATASET_REGISTRY, MODEL_REGISTRY
+from registry import DATASET_REGISTRY, model
 
 
 load_dotenv()
@@ -39,7 +39,7 @@ SYSTEM_INSTRUCTIONS=SystemMessage(
    You are an expert Machine Learning assistant operating in a tool-driven environment.
 
 Your responsibilities:
-- Select and invoke the most appropriate available tool based on the provided data.
+- Select and invoke the most appropriate available tool and model according to the provided data such that maximum accuracy is obtained.
 
 Constraints:
 - Do NOT infer, estimate, or fabricate results.

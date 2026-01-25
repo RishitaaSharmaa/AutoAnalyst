@@ -37,9 +37,9 @@ MODEL_REGISTRY={
     "random_forest_regressor": RandomForestRegressor(),
     "xgboost_regressor": XGBRegressor(),
     "logistic_regression": LogisticRegression(max_iter=1000),
-    "random_forest_classifier": RandomForestClassifier(n_estimators=100),
+    "RandomForestClassifier": RandomForestClassifier(n_estimators=100),
     "svm_classifier": SVC(kernel="linear", C=1),
-    "xgboost_classifier": XGBClassifier()
+    "XGBClassifier": XGBClassifier()
 
 }
 
@@ -244,6 +244,7 @@ def prediction(dataset_id: str, target: str, model_name: str) -> dict:
 
 tools=[rem_null_duplicates,data_profile_tool, kpi_summary_tool,correlation_tool,encode_categorical_tool,groupby_summary_tool, outlier_detection_tool, plot_distribution_tool, plot_correlation_heatmap_tool ,preprocess_dates_tool, prediction]
 
+
 llm_tools=llm.bind_tools(tools)
 def chat_node(state: AutoML):
     messages = state["messages"]
@@ -265,7 +266,9 @@ graph.add_edge(START, "LLM")
 graph.add_conditional_edges("LLM",tools_condition)
 graph.add_edge("tools","LLM")
 
+
 workflow=graph.compile()
+
 
 def load_dataset(dataset_id: str, df: pd.DataFrame):
     DATASET_REGISTRY[dataset_id] = df

@@ -15,7 +15,7 @@ if uploaded_file:
 
     st.dataframe(df.head())
 
-    dataset_id = "user_dataset"
+    dataset_id = "user_dataset" 
     load_dataset(dataset_id, df)
 
     st.info(f"Dataset registered as `{dataset_id}`")

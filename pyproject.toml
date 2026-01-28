@@ -1,0 +1,59 @@
+[project]
+name = "autoanalyst"
+version = "0.1.0"
+description = "AutoAnalyst: An agentic AI system that automates data analysis using LLMs and tool-based workflows."
+readme = "README.md"
+requires-python = ">=3.9"
+
+authors = [
+    { name = "Rishita Sharma" }
+]
+
+dependencies = [
+    # Core data analysis
+    "pandas",
+    "numpy",
+    "scikit-learn",
+
+    # LLM + Agent frameworks
+    "langchain",
+    "langgraph",
+    "langchain-groq",
+
+    # Utilities
+    "python-dotenv",
+    "pydantic",
+
+    # Visualization (optional but useful)
+    "matplotlib",
+    "seaborn"
+]
+
+[project.optional-dependencies]
+dev = [
+    "black",
+    "ruff",
+    "pytest"
+]
+
+---
+
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+---
+
+# ---------- Tool Configurations ----------
+
+[tool.black]
+line-length = 88
+target-version = ["py39"]
+
+[tool.ruff]
+line-length = 88
+select = ["E", "F", "I"]
+ignore = ["E501"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]

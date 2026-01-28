@@ -1,3 +1,7 @@
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
 [project]
 name = "autoanalyst"
 version = "0.1.0"
@@ -10,21 +14,17 @@ authors = [
 ]
 
 dependencies = [
-    # Core data analysis
     "pandas",
     "numpy",
     "scikit-learn",
 
-    # LLM + Agent frameworks
     "langchain",
     "langgraph",
     "langchain-groq",
 
-    # Utilities
     "python-dotenv",
     "pydantic",
 
-    # Visualization (optional but useful)
     "matplotlib",
     "seaborn"
 ]
@@ -36,24 +36,5 @@ dev = [
     "pytest"
 ]
 
----
 
-[build-system]
-requires = ["setuptools>=61.0"]
-build-backend = "setuptools.build_meta"
 
----
-
-# ---------- Tool Configurations ----------
-
-[tool.black]
-line-length = 88
-target-version = ["py39"]
-
-[tool.ruff]
-line-length = 88
-select = ["E", "F", "I"]
-ignore = ["E501"]
-
-[tool.pytest.ini_options]
-testpaths = ["tests"]

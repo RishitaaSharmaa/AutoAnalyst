@@ -1,0 +1,15 @@
+pandas
+numpy
+scikit-learn
+langchain
+langgraph
+langchain-groq
+python-dotenv
+pydantic
+matplotlib
+seaborn
+
+[dev]
+black
+ruff
+pytest

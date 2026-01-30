@@ -1,0 +1,12 @@
+README.md
+pyproject.toml
+src/autoanalyst/__init__.py
+src/autoanalyst/frontend.py
+src/autoanalyst/main.py
+src/autoanalyst/registry.py
+src/autoanalyst/tools.py
+src/autoanalyst.egg-info/PKG-INFO
+src/autoanalyst.egg-info/SOURCES.txt
+src/autoanalyst.egg-info/dependency_links.txt
+src/autoanalyst.egg-info/requires.txt
+src/autoanalyst.egg-info/top_level.txt

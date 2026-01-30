@@ -2,7 +2,7 @@ from sklearn.preprocessing import LabelEncoder
 import matplotlib.pyplot as plt
 from sklearn.model_selection import train_test_split
 from langchain_core.tools import tool
-from registry import DATASET_REGISTRY, MODEL_REGISTRY
+from src.autoanalyst.registry import DATASET_REGISTRY, MODEL_REGISTRY
 
 @tool
 

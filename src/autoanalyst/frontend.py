@@ -1,7 +1,7 @@
 import streamlit as st
 import pandas as pd
-from main import load_dataset, run
-from registry import DATASET_REGISTRY, MODEL_REGISTRY
+from src.autoanalyst.main import load_dataset, run
+from src.autoanalyst.registry import DATASET_REGISTRY, MODEL_REGISTRY
 
 st.set_page_config(page_title="AutoML LangGraph", layout="wide")
 
